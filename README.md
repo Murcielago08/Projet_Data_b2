@@ -107,6 +107,7 @@ source .env/bin/activate
 
 - Installer les packages Python requis à partir du fichier `requirements.txt`
 ```bash
+cd projet
 pip install -r requirements.txt
 ```
 
@@ -114,8 +115,7 @@ pip install -r requirements.txt
 
 - Lancer l'application pour accéder au tableau de bord via l'interface de commandes de Streamlit
 ```bash
-cd projet
-streamlit run app.py
+streamlit run Carte_interactive.py
 ```
 
 `Nota Bene` : Au lancement, ouvre un nouvel onglet dans votre natigateur

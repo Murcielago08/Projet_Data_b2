@@ -27,7 +27,7 @@ def generate_accidents_map(years, df: pd.DataFrame):
 
     # * Map with filter by years
     for i in df[df['an'].isin(years)].index:
-        popup = folium.Popup(f"Date: {df['date'][i]}\nHeure: {df['hrmn'][i]}\nAge: {df['age'][i]}\nSexe: {"Homme" if df['sexe'][i] == 1 else "Femme"}")
+        popup = folium.Popup(f"Date: {df['date'][i]}\nHeure: {df['hrmn'][i]}\nAge: {int(df['age'][i])} ans\nSexe: {"Homme" if df['sexe'][i] == "Masculin" else "Femme"}")
         icon = BeautifyIcon(icon_shape='circle', border_color='red', background_color='red', icon='bicycle', text_color='white')
         folium.Marker(location=[df['lat'][i], df['lon'][i]], icon=icon , popup=popup).add_to(marker_cluster)
 
@@ -40,13 +40,13 @@ def map_data_expander(years, accidents_velo_df: pd.DataFrame):
         # TODO Ajouter plus d'informations
         st.write(f"""
                  Nombre d'accidents survenus dans les années sélectionnées (dont les coordonnées sont connues) : {len(accidents_velo_df[accidents_velo_df['an'].isin(years)].index)}\n
-                 Age moyen des victimes : {0 if isnan(average_victim_age) else int(average_victim_age)}
+                 Moyenne d'âge des victimes : {0 if isnan(average_victim_age) else int(average_victim_age)}
                  """)
 
 
 def map_container(accidents_velo_df: pd.DataFrame):
     st.header("Carte des accidents en France")
-    
+    st.text("")
     if config.screen_size > 1220:
         left, right = st.columns(2)
         with left:
@@ -56,7 +56,7 @@ def map_container(accidents_velo_df: pd.DataFrame):
                 options=[i for i in range(2005,2022)],
                 placeholder='Choisissez une année ou plusieurs années'
                 )
-    
+
             column_size = st_dimensions(key='column')
             column_size = column_size['width'] if column_size != None else 0
             accidents_map = generate_accidents_map(years, df=accidents_velo_df)
